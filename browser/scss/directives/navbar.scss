@@ -1,7 +1,7 @@
 navbar {
 
   display: block;
-  background: white;
+  background: black;
   border-bottom: 1px solid black;
   box-shadow: 1px 1px 14px -3px black;
 
@@ -39,10 +39,16 @@ navbar {
 
   .login-button {
     float: right;
-    border: 1px solid black;
+    border: 3px solid rgba(65, 128, 65, 0.49);
     margin-top: 10px;
-    background: none;
+    background: #00BF02;
     outline: none !important;
+    color: white;
+    border-radius: 20px;
+    &:hover {
+      background: #00AA22;
+      color: white;
+    }
   }
 
   .welcome {
