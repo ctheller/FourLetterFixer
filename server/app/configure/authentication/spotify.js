@@ -12,23 +12,28 @@ module.exports = function (app, db) {
         clientID: spotifyConfig.clientID,
         clientSecret: spotifyConfig.clientSecret,
         callbackURL: "http://localhost:1337/auth/spotify/callback"
-        //spotifyConfig.callbackURL
     };
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
 
-        console.log("Profile from Spotify:", profile);
-        User.findOne({
+        User.update({
+                access_token: accessToken,
+                refresh_token: refreshToken,
+            },
+            {
                 where: {
                     spotify_id: profile.id
-                }
+                }, returning: true
             })
             .then(function (user) {
-                if (user) {
-                    return user;
+                if (user[0]) {
+                    return user[1][0];
                 } else {
                     return User.create({
-                        spotify_id: profile.id
+                        spotify_id: profile.id,
+                        access_token: accessToken,
+                        refresh_token: refreshToken,
+                        email: profile.email
                     });
                 }
             })
@@ -44,12 +49,13 @@ module.exports = function (app, db) {
 
     passport.use(new SpotifyStrategy(spotifyCredentials, verifyCallback));
 
-    app.get('/auth/spotify', passport.authenticate('spotify', {scope: ['user-read-email', 'playlist-read-private', 'playlist-modify-private', 'user-read-private'] }));
+    app.get('/auth/spotify', passport.authenticate('spotify', {scope: ['user-read-email', 'playlist-read-private', 'playlist-modify-public', 'playlist-modify-private', 'user-read-private'] }));
 
     app.get('/auth/spotify/callback',
-        passport.authenticate('spotify'),
+        passport.authenticate('spotify', {failureRedirect: '/login'}),
         function (req, res) {
             res.redirect('/');
         });
+
 
 };

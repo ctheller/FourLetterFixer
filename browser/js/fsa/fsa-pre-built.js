@@ -49,7 +49,7 @@
     });
 
     app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, $q) {
-
+ 
         function onSuccessfulLogin(response) {
             var data = response.data;
             Session.create(data.id, data.user);
@@ -74,8 +74,10 @@
             // then this cached value will not be used.
 
             if (this.isAuthenticated() && fromServer !== true) {
+                //this used to just say return $q.when(Session.user)
                 return $q.when(Session.user);
             }
+
 
             // Make request GET /session.
             // If it returns a user, call onSuccessfulLogin with the response.

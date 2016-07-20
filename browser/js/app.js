@@ -12,6 +12,13 @@ app.config(function ($urlRouterProvider, $locationProvider) {
     });
 });
 
+app.config(function (SpotifyProvider) {
+  SpotifyProvider.setClientId('520d464cc816444a88f7771d3a9ba61c');
+  SpotifyProvider.setRedirectUri('http://localhost:1337/auth/spotify/callback');
+  SpotifyProvider.setScope('user-read-private playlist-read-private playlist-modify-private playlist-modify-public');
+  // If you already have an auth token
+});
+
 // This app.run is for controlling access to specific states.
 app.run(function ($rootScope, AuthService, $state) {
 

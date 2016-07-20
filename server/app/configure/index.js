@@ -20,4 +20,8 @@ module.exports = function (app, db) {
 
     require('./authentication')(app, db);
 
+    app.get('/token', function(req, res, next){
+        console.log(req.user.token);
+    })
+
 };

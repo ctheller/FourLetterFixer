@@ -26,6 +26,12 @@ module.exports = db.define('user', {
     },
     spotify_id: {
         type: Sequelize.STRING
+    },
+    access_token:  {
+        type: Sequelize.TEXT
+    },
+    refresh_token:  {
+        type: Sequelize.TEXT
     }
 }, {
     instanceMethods: {
