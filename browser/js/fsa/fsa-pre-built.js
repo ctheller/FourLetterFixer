@@ -54,7 +54,6 @@
             var data = response.data;
             Session.create(data.id, data.user);           
             if (!Spotify.authToken) Spotify.setAuthToken(data.user.access_token);
-            console.log("Token:",Spotify.authToken);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 
             return data.user;

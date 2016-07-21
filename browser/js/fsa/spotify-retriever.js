@@ -10,7 +10,6 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
 	this.getUserDetails = function(){
     	return Spotify.getCurrentUser()
     	.then(function(userDetails){
-            console.log("My deets:",userDetails);
         	return userDetails;
     	}) 
         .catch($log);   
