@@ -17,30 +17,40 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
 
     this.getAllPlaylists = function(id){
         var recWrap = function(i){
-        return Spotify.getUserPlaylists(id, {limit:50, offset:i})
-        .then(function(playlists){
-            if (playlists.items.length) {
-                return recWrap(i+50)
-                .then(function(morePlaylists){
-                    return playlists.items.concat(morePlaylists);
-                })
-            }
-            return [];
-        }) 
-        .catch($log);
+            return Spotify.getUserPlaylists(id, {limit:50, offset:i})
+            .then(function(playlists){
+                if (playlists.items.length) {
+                    return recWrap(i+50)
+                    .then(function(morePlaylists){
+                        return playlists.items.concat(morePlaylists);
+                    })
+                }
+                return [];
+            }) 
+            .catch($log);
         }
         return recWrap(0);
     }
 
     this.getPlaylistSongs = function(userId, playlistId){
-        return Spotify.getPlaylistTracks(userId, playlistId, {market:"US"})
-        .then(function(songs){
-            var songList = songs.items;
-            songList = songList.map(function(item){
-                return item.track;
+        var recWrap = function(i){
+            return Spotify.getPlaylistTracks(userId, playlistId, {market:"US", offset:i})
+            .then(function(songs){
+                var songList = songs.items;
+                songList = songList.map(function(item){
+                    return item.track;
+                })
+                if (songList.length) {
+                    return recWrap(i+100)
+                    .then(function(moreSongs){
+                        return songList.concat(moreSongs);
+                    })
+                }
+                return [];
             })
-            return songList;
-        })
+            .catch($log);
+        }
+        return recWrap(0);
     }
 
     return this;

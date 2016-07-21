@@ -1,4 +1,4 @@
-<table class='table'>
+<table class='table sturdy'>
   <thead>
     <tr>
       <th>🙉</th>
@@ -15,9 +15,9 @@
           <span class="glyphicon" ng-class="{ 'glyphicon-pause': isPlaying(song), 'glyphicon-play': !isPlaying(song) }"></span>
         </button>
       </td>
-      <td>{{song.name}}</td>
-      <td>{{song.album.name}}</td>
-      <td><span ng-repeat="artist in song.artists">{{ artist.name }}{{ $last ? '' : ', ' }}</span></td>
+      <td>{{song.name | limitTo: 40 }}<span ng-if="song.name.length > 40">...</span></td>
+      <td>{{song.album.name | limitTo: 25 }}<span ng-if="song.album.name.length > 25">...</span></td>
+      <td><span ng-repeat="artist in song.artists | limitTo : 3">{{ artist.name }}{{ $last ? '' : ', ' }}</span><span ng-if="song.artists.length > 3">...</span></td>
     </tr>
   </tbody>
 </table>

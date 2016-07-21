@@ -13,6 +13,20 @@
   color: red;
   }
 
+  table {
+    td:nth-child(2){
+      width: 35%;
+    }
+    td:nth-child(3),
+    td:nth-child(4) {
+      width: 30%;
+    }
+    td:nth-child(1) {
+      width: 5%;
+    } 
+  }
+
+
 }
 
 
