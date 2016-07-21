@@ -5,11 +5,12 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('home', function ($rootScope, $scope, SpotifyRetriever) {
-    SpotifyRetriever.promiseForToken()
-    .then(function(){
-    	return SpotifyRetriever.getUserDetails()
-    })
+app.controller('home', function ($rootScope, $scope, SpotifyRetriever, Spotify) {
+    // SpotifyRetriever.promiseForToken()
+    // .then(function(){
+    // 	return SpotifyRetriever.getUserDetails()
+    // })
+    SpotifyRetriever.getUserDetails()
     .then(function(userDetails){
         $rootScope.user = userDetails;
     })
@@ -17,7 +18,22 @@ app.controller('home', function ($rootScope, $scope, SpotifyRetriever) {
 	    return SpotifyRetriever.getAllPlaylists($scope.user.id)
 	})
     .then(function(playlists){
-    	$scope.playlists = playlists;
-    	console.log("playlists:", playlists)
+    	return $scope.playlists = playlists;
     })
+    .then(function(playlists){
+        return SpotifyRetriever.getPlaylistSongs($scope.user.id, playlists[2].id);
+    })
+    .then(function(songs){
+        $scope.songs = songs;
+        console.log("songlist:", songs);
+        return songs;
+    })
+
+    Spotify.getTrack('0eGsygTp906u18L0Oimnem').then(function (data) {
+        console.log("Get Track:",data);
+    });
+
+    Spotify.getTrackAudioFeatures('0eGsygTp906u18L0Oimnem').then(function (data) {
+        console.log("Get Features:",data);
+    });
 });

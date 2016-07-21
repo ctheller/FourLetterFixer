@@ -20,7 +20,14 @@ app.config(function (SpotifyProvider) {
 });
 
 // This app.run is for controlling access to specific states.
-app.run(function ($rootScope, AuthService, $state) {
+app.run(function ($rootScope, AuthService, $state, Spotify, $log) {
+
+    // //Set Auth Token for App
+    // AuthService.getLoggedInUser()
+    //     .then(function(user){
+    //         if (!Spotify.authToken) Spotify.setAuthToken(user.access_token);
+    //     })
+    //     .catch($log);
 
     // The given state requires an authenticated user.
     var destinationStateRequiresAuth = function (state) {
@@ -29,13 +36,13 @@ app.run(function ($rootScope, AuthService, $state) {
 
     // $stateChangeStart is an event fired
     // whenever the process of changing a state begins.
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, $log) {
 
-        if (!destinationStateRequiresAuth(toState)) {
-            // The destination state does not require authentication
-            // Short circuit with return.
-            return;
-        }
+        // if (!destinationStateRequiresAuth(toState)) {
+        //     // The destination state does not require authentication
+        //     // Short circuit with return.
+        //     return;
+        // }
 
         if (AuthService.isAuthenticated()) {
             // The user is authenticated.
@@ -53,7 +60,7 @@ app.run(function ($rootScope, AuthService, $state) {
             if (user) {
                 $state.go(toState.name, toParams);
             } else {
-                $state.go('login');
+                $state.go('/');
             }
         });
 

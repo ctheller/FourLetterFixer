@@ -48,12 +48,15 @@
         ]);
     });
 
-    app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, $q) {
+    app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, Spotify, $q) {
  
         function onSuccessfulLogin(response) {
             var data = response.data;
-            Session.create(data.id, data.user);
+            Session.create(data.id, data.user);           
+            if (!Spotify.authToken) Spotify.setAuthToken(data.user.access_token);
+            console.log("Token:",Spotify.authToken);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+
             return data.user;
         }
 
@@ -99,6 +102,7 @@
         this.logout = function () {
             return $http.get('/logout').then(function () {
                 Session.destroy();
+                Spotify.setAuthToken(null);
                 $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
             });
         };

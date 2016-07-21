@@ -1,4 +1,9 @@
 #home {
+  position: fixed;
+  color: white;
+  overflow-y: scroll;
+  height: 100%;
+  padding-bottom: 200px;
   app-logo {
     padding-top: 30px;
     width: 150px;

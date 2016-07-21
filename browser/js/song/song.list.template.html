@@ -1,0 +1,23 @@
+<table class='table'>
+  <thead>
+    <tr>
+      <th>🙉</th>
+      <th>Name</th>
+      <th>Album</th>
+      <th>Artists</th>
+    </tr>
+  </thead>
+<!-- Make the rows draggable to reorder the playlist -->
+  <tbody>
+    <tr double-click="toggle(song)" ng-repeat="song in songs" ng-class="{active: song === getCurrentSong() }">
+      <td>
+        <button ng-click="toggle(song)" class="btn btn-default btn-xs">
+          <span class="glyphicon" ng-class="{ 'glyphicon-pause': isPlaying(song), 'glyphicon-play': !isPlaying(song) }"></span>
+        </button>
+      </td>
+      <td>{{song.name}}</td>
+      <td>{{song.album.name}}</td>
+      <td ng-repeat="artist in song.artists"><span>{{ artist.name }}{{ $last ? '' : ', ' }}</span></td>
+    </tr>
+  </tbody>
+</table>
