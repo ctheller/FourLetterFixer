@@ -60,7 +60,7 @@ app.run(function ($rootScope, AuthService, $state, Spotify, $log) {
             if (user) {
                 $state.go(toState.name, toParams);
             } else {
-                $state.go('/');
+                $state.go('playlist');
             }
         });
 

@@ -4,7 +4,7 @@
     <a>Playlists</a>
   </h4>
   <p ui-sref-active="active" ng-repeat="playlist in playlists" class="menu-item">
-    <a ui-sref="playlist({playlistId: playlist.id })">
+    <a ui-sref="playlist({playlistId: playlist.id, ownerId: playlist.owner.id})">
       {{ playlist.name }}
     </a>
   </p>

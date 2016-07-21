@@ -15,6 +15,9 @@ app.directive('songList', function(PlayerFactory){
 			  };
 
 			  scope.toggle = function (song) {
+			  	//DEAL WITH SONGS THAT DON'T HAVE A PREVIEW OPTION
+			  	if (!song.preview_url) return;
+			  	
 			    if (song !== PlayerFactory.getCurrentSong()) {
 			      PlayerFactory.start(song, scope.songs);
 			    } else if ( PlayerFactory.isPlaying() ) {
