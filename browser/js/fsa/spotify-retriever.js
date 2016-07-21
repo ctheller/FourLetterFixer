@@ -10,6 +10,7 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
 	this.getUserDetails = function(){
     	return Spotify.getCurrentUser()
     	.then(function(userDetails){
+            console.log("My deets:",userDetails);
         	return userDetails;
     	}) 
         .catch($log);   
@@ -24,7 +25,7 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
     }
 
     this.getPlaylistSongs = function(userId, playlistId){
-        return Spotify.getPlaylistTracks(userId, playlistId)
+        return Spotify.getPlaylistTracks(userId, playlistId, {market:"US"})
         .then(function(songs){
             var songList = songs.items;
             songList = songList.map(function(item){
