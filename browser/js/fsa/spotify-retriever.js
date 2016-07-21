@@ -16,11 +16,20 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
 	}
 
     this.getAllPlaylists = function(id){
-        return Spotify.getUserPlaylists(id, {limit:50})
+        var recWrap = function(i){
+        return Spotify.getUserPlaylists(id, {limit:50, offset:i})
         .then(function(playlists){
-            return playlists.items;
+            if (playlists.items.length) {
+                return recWrap(i+50)
+                .then(function(morePlaylists){
+                    return playlists.items.concat(morePlaylists);
+                })
+            }
+            return [];
         }) 
-        .catch($log);   
+        .catch($log);
+        }
+        return recWrap(0);
     }
 
     this.getPlaylistSongs = function(userId, playlistId){
