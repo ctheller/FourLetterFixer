@@ -1,7 +1,10 @@
 app.config(function ($stateProvider) {
     $stateProvider.state('playlist', {
         url: '/playlist/:ownerId/:playlistId/:playlistName',
-        templateUrl: 'js/playlist/playlist.html'
+        templateUrl: 'js/playlist/playlist.html',
+        data: {
+            authenticate: true
+        }
     });
 });
 
@@ -17,7 +20,7 @@ app.controller('playlist', function ($rootScope, $scope, SpotifyRetriever, Spoti
         SpotifyRetriever.makeCleanPlaylist($scope.user.id, $stateParams.playlistName, $scope.songs)
         .then(function(data){
             //FIGURE THIS OUT. gaaaaaaaah digests #yuck
-            $rootScope.$apply();
+           // $rootScope.$apply();
         });
     }
 });
