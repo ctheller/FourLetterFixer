@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('playlist', function ($rootScope, $scope, SpotifyRetriever, Spotify, $stateParams) {
+app.controller('playlist', function ($rootScope, $scope, SpotifyRetriever, Spotify, $stateParams, $state) {
 
     SpotifyRetriever.getPlaylistSongs($stateParams.ownerId, $stateParams.playlistId)
     .then(function(songs){
@@ -19,6 +19,7 @@ app.controller('playlist', function ($rootScope, $scope, SpotifyRetriever, Spoti
     $scope.makeCleanPlaylist = function(){
         SpotifyRetriever.makeCleanPlaylist($scope.user.id, $stateParams.playlistName, $scope.songs)
         .then(function(data){
+            $state.go('playlist', {ownerId:data.owner.id, playlistId:data.id, playlistName: data.name});
             //FIGURE THIS OUT. gaaaaaaaah digests #yuck
            // $rootScope.$apply();
         });

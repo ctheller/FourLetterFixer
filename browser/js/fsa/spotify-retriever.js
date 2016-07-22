@@ -64,12 +64,15 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
         var cleanSongIdArray = cleanSongArray.map(function(song){
             return song.id;
         })
+        var createdPlaylistRef;
+
         return Spotify.createPlaylist(userId, {name: name+" 🙉", public: false})
         .then(function(createdPlaylist){
+            createdPlaylistRef = createdPlaylist;
             return Spotify.addPlaylistTracks(userId,createdPlaylist.id,cleanSongIdArray);
         })
-        .then(function(createdPlaylistWithTracks){
-            return createdPlaylistWithTracks;
+        .then(function(snapshot_id){
+            return createdPlaylistRef;
         })
         .catch($log);
     }
