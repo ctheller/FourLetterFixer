@@ -64,10 +64,14 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
         var cleanSongIdArray = cleanSongArray.map(function(song){
             return song.id;
         })
-        Spotify.createPlaylist(userId, {name: name+" (Clean)", public: false})
+        return Spotify.createPlaylist(userId, {name: name+" 🙉", public: false})
         .then(function(createdPlaylist){
-            Spotify.addPlaylistTracks(userId,createdPlaylist.id,cleanSongIdArray);
+            return Spotify.addPlaylistTracks(userId,createdPlaylist.id,cleanSongIdArray);
         })
+        .then(function(createdPlaylistWithTracks){
+            return createdPlaylistWithTracks;
+        })
+        .catch($log);
     }
 
     // Spotify.removePlaylistTracks('user_id', 'playlist_id', 'comma separated string or array of spotify track ids or uris');

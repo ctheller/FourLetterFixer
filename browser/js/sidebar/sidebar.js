@@ -11,7 +11,6 @@ app.controller('SidebarCtrl', function ($rootScope, $scope, SpotifyRetriever) {
     			return SpotifyRetriever.getAllPlaylists($scope.user.id)
     		})
         .then(function(playlists){
-            console.log("PLAYLISTS",playlists)
         	$rootScope.playlists = playlists;
         })
 	})

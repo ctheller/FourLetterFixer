@@ -14,6 +14,10 @@ app.controller('playlist', function ($rootScope, $scope, SpotifyRetriever, Spoti
     })
 
     $scope.makeCleanPlaylist = function(){
-        SpotifyRetriever.makeCleanPlaylist($scope.user.id, $stateParams.playlistName, $scope.songs);
+        SpotifyRetriever.makeCleanPlaylist($scope.user.id, $stateParams.playlistName, $scope.songs)
+        .then(function(data){
+            //FIGURE THIS OUT. gaaaaaaaah digests #yuck
+            $rootScope.$apply();
+        });
     }
 });
