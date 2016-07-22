@@ -48,13 +48,19 @@
         ]);
     });
 
-    app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, Spotify, $q) {
+    app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, Spotify, $q, $log) {
  
         function onSuccessfulLogin(response) {
             var data = response.data;
             Session.create(data.id, data.user);           
+            
             if (!Spotify.authToken) Spotify.setAuthToken(data.user.access_token);
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+            Spotify.getCurrentUser()
+            .then(function(userDetails){
+                $rootScope.user = userDetails;
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+            }) 
+            .catch($log); 
 
             return data.user;
         }
@@ -90,8 +96,8 @@
 
         };
 
-        this.login = function (credentials) {
-            return $http.post('/login', credentials)
+        this.login = function () {
+            return $http.get('/auth/spotify')
                 .then(onSuccessfulLogin)
                 .catch(function () {
                     return $q.reject({ message: 'Invalid login credentials.' });

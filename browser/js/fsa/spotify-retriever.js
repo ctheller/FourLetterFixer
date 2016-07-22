@@ -7,14 +7,14 @@ app.factory('SpotifyRetriever', function(AuthService, Spotify, $log){
     //     })
     // }
 
-    //Gets User Info
-	this.getUserDetails = function(){
-    	return Spotify.getCurrentUser()
-    	.then(function(userDetails){
-        	return userDetails;
-    	}) 
-        .catch($log);   
-	}
+ //    //Gets User Info
+	// this.getUserDetails = function(){
+ //    	return Spotify.getCurrentUser()
+ //    	.then(function(userDetails){
+ //        	return userDetails;
+ //    	}) 
+ //        .catch($log);   
+	// }
 
     //Retrieves ALL of a user's public, private, and followed playlists
     this.getAllPlaylists = function(id){
